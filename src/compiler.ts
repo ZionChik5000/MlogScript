@@ -9,9 +9,9 @@ class Compiler {
 
       let outputCode: string = "";
 
-      if (parametrs[0] === "print") {
+      /*if (parametrs[0] === "print") {
         outputCode = `console.log("${parametrs[1]}")`;
-      }
+      }*/
     }
   }
 }
@@ -23,19 +23,24 @@ class Env {
     this[variable] = value;
   }
 
-  /*op(variable: string, ) {}
-  
-  usage:
-  const op = new Op();
-  env.op("1 + 1");
-  env.op("1 / 1");
-  env.op("1 not 1");
-  env.op("1 == 1");
-  env.op("1 cos 1");
-  env.op("1 tan 1");
-  */
+  op(operation: string): number | boolean | null {
+    try {
+      const result: any = eval(operation);
+      return result as number | boolean;
+    } catch (error) {
+      console.error("Error while performing operation:", error);
+      return null;
+    }
+  }
 }
 
 const env = new Env();
+
 env.set("name", "John");
 console.log(env.name);
+
+env.set("age", env.op("10+5"));
+console.log(env.age);
+
+env.set("isAdult", env.op(env.age + ">=18"));
+console.log(env.isAdult);
